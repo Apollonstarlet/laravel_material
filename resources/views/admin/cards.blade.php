@@ -115,47 +115,35 @@
 {{-- page scripts --}}
 @section('page-script')
 <script>
-/**
- * Sweet Alerts
- */
+$(document).ready(function () {
+  
+  $("a.confirm-del").on("click", function () {
+    var id = $(this).attr('id');
+    $('input#id').val(id);
+    console.log("card del"+ id);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      customClass: {
+        confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+        cancelButton: 'btn btn-label-secondary waves-effect'
+      },
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.value) {
+        $('form#del-confirm').submit();
+      }
+    });      
+  });
 
- 'use strict';
-
-(function () {
-  const edit = document.querySelector('a.card-edit'),
-        confirmDel = document.querySelector('a.confirm-del');
-
-  if (edit) {
-    edit.onclick = function () {
-      var id = $(this).attr('id');
-      $('input#card-id').val(id);
-      $('form#card-edit').submit();
-    };
-  }
-
-  // Alert With Functional Confirm Button
-  if (confirmDel) {
-    confirmDel.onclick = function () {
-      var id = $(this).attr('id');
-      $('input#id').val(id);
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        customClass: {
-          confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
-          cancelButton: 'btn btn-label-secondary waves-effect'
-        },
-        buttonsStyling: false
-      }).then(function (result) {
-        if (result.value) {
-          $('form#del-confirm').submit();
-        }
-      });
-    };
-  }
-})();
+  $("a.card-edit").on("click", function () {
+    var id = $(this).attr('id');
+    $('input#card-id').val(id);
+    $('form#card-edit').submit();   
+  });
+});
 </script>
 @endsection
